@@ -246,9 +246,6 @@
   <script>
     var lat;
     var longitude;
-    document.addEventListener("deviceready", onDeviceReady, false);
-
-    function onDeviceReady() {
       //This is for main page current location
       if (navigator.geolocation == undefined) {
         alert("Gelocation undefined");
@@ -274,7 +271,6 @@
           }
         }
       }
-    }
     //CODE FOR HOME FUNCTIONALITY
     $(document).ready(function() {
       //Displaying homepage and hidding all other divs
@@ -291,7 +287,7 @@
         $("#buttongroup").show("fast");
       });
       //POLICE STATIONS
-      $("#police").click(function() {
+      $("#police").on("tap", function(){
         $("#buttongroup").hide("fast");
         $("#policeview").show("fast");
         var api = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=policestation&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
@@ -347,7 +343,6 @@
         $("#fireview").show("fast");
         var api = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=mauritiusfire&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
         $.getJSON(api, function(data) {
-          console.log(data);
           var i;
           var a = [];
           var b = [];
