@@ -291,10 +291,9 @@
       $("#police").click(function() {
         $("#buttongroup").hide("fast");
         $("#policeview").show("fast");
-        var api_url = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=policestation&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
         alert("avant ajax krk!");
         $.ajax({
-          url: api_url,
+          url: "https://places.cit.api.here.com/places/v1/autosuggest?at=-20.2983928323,57.11223232"&q=policestation&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ",
           contentType: "application/json",
           dataType: 'json',
           success: function(data) {
@@ -402,8 +401,10 @@
         $("#buttongroup").hide("fast");
         $("#fireview").show("fast");
         var api = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=mauritiusfire&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
+        alert("KRK LA");
         $.getJSON(api, function(data) {
           console.log(data);
+          alert("rentrer");
           var i;
           var a = [];
           var b = [];
