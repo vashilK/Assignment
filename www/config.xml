@@ -12,6 +12,7 @@
     <icon src="img/android/map.png" platform="android" width="64" height="64" density="ldpi" />
   </platform>
   <plugin name="cordova-plugin-geolocation" spec="~1.0.0" />
+  <plugin name="cordova-plugin-whitelist" version="1" />
   <author href="#" email="kissoonvashil@gmail.com">
     Neeschal Kissoon
   </author>
