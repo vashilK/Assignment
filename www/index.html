@@ -1,9 +1,10 @@
+﻿
 <!DOCTYPE html>
 <html>
 
 <head>
   <title>Complaint App With Geo-Location</title>
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
   <!-- FILES FOR LOGIN PAGE -->
   <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
@@ -15,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="js/jquery.mobile-1.4.5.css">
   <script src="js/jquery.js"></script>
   <script src="js/jquery.mobile-1.4.5.js"></script>
-  <script src="cordova.js"></script>
+  <!-- <script src="cordova.js"></script> -->
   <style>
     .title {
       align-items: center;
@@ -246,31 +247,31 @@
   <script>
     var lat;
     var longitude;
-      //This is for main page current location
-      if (navigator.geolocation == undefined) {
-        alert("Gelocation undefined");
-      } else {
-        //alert("Geolocation Available");
-        navigator.geolocation.getCurrentPosition(userLocated, LocationError);
+    //This is for main page current location
+    if (navigator.geolocation == undefined) {
+      alert("Gelocation undefined");
+    } else {
+      //alert("Geolocation Available");
+      navigator.geolocation.getCurrentPosition(userLocated, LocationError);
 
-        function userLocated(position) {
-          lat = position.coords.latitude;
-          longitude = position.coords.longitude;
-          alert("Lat: " + lat + ", Lon: " + longitude);
-        }
+      function userLocated(position) {
+        lat = position.coords.latitude;
+        longitude = position.coords.longitude;
+        alert("Lat: " + lat + ", Lon: " + longitude);
+      }
 
-        function LocationError(error) {
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              alert("Permission Denied-" + error.message);
-              break;
+      function LocationError(error) {
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            alert("Permission Denied-" + error.message);
+            break;
 
-            case error.POSITION_UNAVAILABLE:
-              alert("Request Time out-" + error.message);
+          case error.POSITION_UNAVAILABLE:
+            alert("Request Time out-" + error.message);
 
-          }
         }
       }
+    }
     //CODE FOR HOME FUNCTIONALITY
     $(document).ready(function() {
       //Displaying homepage and hidding all other divs
@@ -287,62 +288,124 @@
         $("#buttongroup").show("fast");
       });
       //POLICE STATIONS
-      $("#police").on("tap", function(){
+      $("#police").click(function() {
         $("#buttongroup").hide("fast");
         $("#policeview").show("fast");
-        var api = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=policestation&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
-        $.getJSON(api, function(data) {
-          var i;
-          var a = [];
-          var b = [];
-          var c = [];
-          for (i = 0; i < data.results.length; i++) {
-            //Ensuring that values returned by API are not void
-            if (data.results[i].position != null) {
-              a[i] = data.results[i].position[0];
-              b[i] = data.results[i].position[1];
-              c[i] = data.results[i].title;
+        var api_url = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=policestation&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
+        $(".content a").each(function(index, element) {
+          console.log($(this).text());
+        })
+        $.ajax({
+          url: api_url,
+          contentType: "application/json",
+          dataType: 'json',
+          success: function(data) {
+            console.log(data);
+            var i;
+            var a = [];
+            var b = [];
+            var c = [];
+            for (i = 0; i < data.results.length; i++) {
+              //Ensuring that values returned by API are not void
+              if (data.results[i].position != null) {
+                a[i] = data.results[i].position[0];
+                b[i] = data.results[i].position[1];
+                c[i] = data.results[i].title;
+              }
             }
-
-          }
-          var mymap = L.map('policeview').setView([lat, longitude], 13);
-          L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            maxZoom: 19,
-            attribution: 'Map data &copy;' +
-              '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-              'contributors,<a href="https://creativecommons.org/licenses' +
-              '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
-              'www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
-              'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-          }).addTo(mymap);
-          //Populating markers on the MAP
-          var marker = [];
-          var one;
-          for (one = 0; one < data.results.length; one++) {
-            if (a[one] != null) {
-              //Limits Results to Mauritius Only & near to user
-              var latlower = parseFloat(lat) - 0.09;
-              var latupper = parseFloat(lat) + 0.09;
-              var longlower = parseFloat(longitude) - 0.09;
-              var longupper = parseFloat(longitude) + 0.09;
-              if ((parseFloat(a[one]) >= latlower) && (parseFloat(a[one]) <= latupper)) {
-                if ((parseFloat(b[one]) >= longlower) && (parseFloat(b[one]) <= longupper)) {
-                  marker[one] = L.marker([a[one], b[one]]).addTo(mymap);
-                  marker[one].bindPopup(c[one]).openPopup();
+            var mymap = L.map('policeview').setView([lat, longitude], 13);
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+              maxZoom: 19,
+              attribution: 'Map data &copy;' +
+                '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
+                'contributors,<a href="https://creativecommons.org/licenses' +
+                '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
+                'www.mapbox.com/">Mapbox</a>',
+              id: 'mapbox.streets',
+              accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
+                'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
+            }).addTo(mymap);
+            //Populating markers on the MAP
+            var marker = [];
+            var one;
+            for (one = 0; one < data.results.length; one++) {
+              if (a[one] != null) {
+                //Limits Results to Mauritius Only & near to user
+                var latlower = parseFloat(lat) - 0.09;
+                var latupper = parseFloat(lat) + 0.09;
+                var longlower = parseFloat(longitude) - 0.09;
+                var longupper = parseFloat(longitude) + 0.09;
+                if ((parseFloat(a[one]) >= latlower) && (parseFloat(a[one]) <= latupper)) {
+                  if ((parseFloat(b[one]) >= longlower) && (parseFloat(b[one]) <= longupper)) {
+                    marker[one] = L.marker([a[one], b[one]]).addTo(mymap);
+                    marker[one].bindPopup(c[one]).openPopup();
+                  }
                 }
               }
             }
           }
         });
+
       });
+      /*
+      $("#police").click(function() {
+        $("#buttongroup").hide("fast");
+        $("#policeview").show("fast");
+        var api =
+          $.getJSON(api, function(data) {
+            var i;
+            var a = [];
+            var b = [];
+            var c = [];
+            for (i = 0; i < data.results.length; i++) {
+              //Ensuring that values returned by API are not void
+              if (data.results[i].position != null) {
+                a[i] = data.results[i].position[0];
+                b[i] = data.results[i].position[1];
+                c[i] = data.results[i].title;
+              }
+
+            }
+            var mymap = L.map('policeview').setView([lat, longitude], 13);
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+              maxZoom: 19,
+              attribution: 'Map data &copy;' +
+                '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
+                'contributors,<a href="https://creativecommons.org/licenses' +
+                '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
+                'www.mapbox.com/">Mapbox</a>',
+              id: 'mapbox.streets',
+              accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
+                'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
+            }).addTo(mymap);
+            //Populating markers on the MAP
+            var marker = [];
+            var one;
+            for (one = 0; one < data.results.length; one++) {
+              if (a[one] != null) {
+                //Limits Results to Mauritius Only & near to user
+                var latlower = parseFloat(lat) - 0.09;
+                var latupper = parseFloat(lat) + 0.09;
+                var longlower = parseFloat(longitude) - 0.09;
+                var longupper = parseFloat(longitude) + 0.09;
+                if ((parseFloat(a[one]) >= latlower) && (parseFloat(a[one]) <= latupper)) {
+                  if ((parseFloat(b[one]) >= longlower) && (parseFloat(b[one]) <= longupper)) {
+                    marker[one] = L.marker([a[one], b[one]]).addTo(mymap);
+                    marker[one].bindPopup(c[one]).openPopup();
+                  }
+                }
+              }
+            }
+          });
+      });
+      */
       //FIRE STATTION
       $("#fire").click(function() {
         $("#buttongroup").hide("fast");
         $("#fireview").show("fast");
         var api = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=mauritiusfire&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
         $.getJSON(api, function(data) {
+          console.log(data);
           var i;
           var a = [];
           var b = [];
