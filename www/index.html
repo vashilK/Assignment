@@ -292,13 +292,13 @@
         $("#buttongroup").hide("fast");
         $("#policeview").show("fast");
         var api_url = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=policestation&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
-   
+        alert("avant ajax krk!");
         $.ajax({
           url: api_url,
           contentType: "application/json",
           dataType: 'json',
           success: function(data) {
-            console.log(data);
+            alert("ine ale endan!");
             var i;
             var a = [];
             var b = [];
