@@ -3,7 +3,7 @@
 
   <!-- versionCode is optional and Android only -->
 
-  <name>Complaint with Geolocation</name>
+  <name>Complaintgeoloc</name>
 
   <description>
     A simple complaint application with maps.
