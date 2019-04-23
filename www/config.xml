@@ -13,7 +13,7 @@
   </platform>
   <plugin name="cordova-plugin-geolocation" spec="~1.0.0" />
   <plugin name="cordova-plugin-whitelist" version="1" />
-  <plugin name="cordova-plugin-camera" version="~1.0.0" />
+  <plugin name="cordova-plugin-camera" spec="~1.0.0" />
   <author href="#" email="kissoonvashil@gmail.com">
     Neeschal Kissoon
   </author>
