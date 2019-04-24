@@ -15,6 +15,9 @@
   <plugin name="cordova-plugin-whitelist" spec="~1.0.0" />
   <plugin name="cordova-plugin-camera" spec="2.4.1" />
   <plugin name="cordova-plugin-media-capture" spec="1.4.3" />
+  <plugin name="cordova-plugin-file" spec="~1.0.0" />
+  <plugin name="cordova-plugin-filepath" spec="~1.0.0" />
+
 
   <author href="#" email="kissoonvashil@gmail.com">
     Neeschal Kissoon
