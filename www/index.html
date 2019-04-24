@@ -1,3 +1,4 @@
+﻿
 <!DOCTYPE html>
 <html>
 
@@ -15,7 +16,13 @@
   <link rel="stylesheet" type="text/css" href="js/jquery.mobile-1.4.5.css">
   <script src="js/jquery.js"></script>
   <script src="js/jquery.mobile-1.4.5.js"></script>
+  <script src="js/home.js"></script>
   <script src="cordova.js"></script>
+  <!-- ROUTING LEAFLET -->
+  <link rel="stylesheet" href="leaflet-routing-machine/dist/leaflet.css" />
+  <link rel="stylesheet" href="leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <script src="leaflet-routing-machine/dist/leaflet.js"></script>
+  <script src="leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
   <style>
     .title {
       align-items: center;
@@ -88,10 +95,39 @@
       width: inherit;
       height: 600px;
     }
-    #camimg{
+
+    #camimg {
       width: inherit;
       height: 500px;
     }
+
+    #subreport {
+      background: linear-gradient(to bottom left, #009933 1%, #99ff33 100%);
+      color: white;
+      font-weight: lighter;
+    }
+
+    #cancelreport {
+      background: linear-gradient(to bottom left, #ff6600 1%, #ffcc00 100%);
+      color: white;
+      font-weight: lighter;
+    }
+
+    #report {
+      display: none;
+    }
+
+    #thermo {
+      width: 8%;
+      position: relative;
+      top: 5px;
+    }
+
+    #temp {
+      font-style: "Times New Roman";
+      margin-top: -26px;
+    }
+
     /**Sticks the footer to the bottom of the page */
     [data-role=page] {
       height: 100% !important;
@@ -149,7 +185,8 @@
     <!-- HOMEPAGE MAIN -->
     <div data-role="main" id="homemain" class="ui-content">
       <br>
-      <h4>what`s nearby</h4>
+      <h4 id="titl">what`s nearby</h4>
+      <h3 id="temp"></h3>
       <br>
       <div id="buttongroup">
         <div class="ui-grid-b">
@@ -218,7 +255,16 @@
     </div>
     <!-- CAMERA MAIN -->
     <div data-role="main" id="cameramain" class="ui-content">
+      <div id="report">
+        <textarea id="combox" rows="15" cols="100"></textarea>
+        <div class="ui-grid-a">
+          <div class="ui-block-a">
+            <button id="subreport" class="ui-btn ui-corner-all">Submit</button></div>
+          <div class="ui-block-b"><button id="cancelreport" class="ui-btn ui-corner-all">cancel</button></div>
+        </div>
+      </div>
       <div id="camimg"></div>
+
     </div>
     <!-- CAMERA footer -->
     <div data-role="footer">
@@ -269,8 +315,28 @@
     </div>
   </div>
   <script>
-    var lat;
-    var longitude;
+    //SWIPES
+    $("#home").on("swipeleft", homemoveleft);
+    $("#camera").on("swiperight", cameramoveright);
+
+    function homemoveleft() {
+      if ($("#buttongroup").is(":visible")) {
+        $.mobile.changePage("#camera", {
+          reverse: false,
+          transition: "slide"
+        });
+        clickpic();
+      }
+    }
+
+    function cameramoveright() {
+      $.mobile.changePage("#home", {
+        reverse: false,
+        transition: "slide"
+      });
+    }
+
+    var imageloc;
     //CAMERA FUNCTIONALITY
     $(document).ready(function() {
       $("#camera1").click(function() {
@@ -278,591 +344,31 @@
           reverse: false,
           transition: "pop"
         });
-        navigator.camera.getPicture(success, error, {
-          quality: 50,
-          destinationType: Camera.DestinationType.DATA_URL
-        });
+        clickpic();
       })
     });
 
-    function success(imageData) {
+    function clickpic() {
+      navigator.camera.getPicture(success, error, {
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URI
+      });
+    }
+
+    function success(imageURI) {
       var img = $("#camimg");
-      img.src = "data:image/jpeg:base64," + imageData;
+      img.src = imageURI;
+      imageloc = imageURI;
+      //imageloc location provides the absolute path to the image in memory
+      $("#report").show("fast");
     }
 
     function error(err) {
-      console.log("error: " + err);
+      $.mobile.changePage("#home", {
+        reverse: false,
+        transition: "pop"
+      });
     }
-
-    //This is for main page current location
-    if (navigator.geolocation == undefined) {
-      alert("Gelocation undefined");
-    } else {
-      //alert("Geolocation Available");
-      navigator.geolocation.getCurrentPosition(userLocated, LocationError);
-
-      function userLocated(position) {
-        lat = position.coords.latitude;
-        longitude = position.coords.longitude;
-        alert("Lat: " + lat + ", Lon: " + longitude);
-      }
-
-      function LocationError(error) {
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            alert("Permission Denied-" + error.message);
-            break;
-
-          case error.POSITION_UNAVAILABLE:
-            alert("Request Time out-" + error.message);
-
-        }
-      }
-    }
-    //CODE FOR HOME FUNCTIONALITY
-    $(document).ready(function() {
-      //Displaying homepage and hidding all other divs
-      $("#home1").click(function() {
-        $("#policeview").hide("fast");
-        $("#fireview").hide("fast");
-        $("#hospitalview").hide("fast");
-        $("#busview").hide("fast");
-        $("#atmview").hide("fast");
-        $("#municipalityview").hide("fast");
-        $("#bankview").hide("fast");
-        $("#postview").hide("fast");
-        $("#gasview").hide("fast");
-        $("#buttongroup").show("fast");
-      });
-      //POLICE STATIONS
-      $("#police").click(function() {
-        $("#buttongroup").hide("fast");
-        $("#policeview").show("fast");
-        var api_url = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=policestation&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
-        $(".content a").each(function(index, element) {
-          console.log($(this).text());
-        })
-        $.ajax({
-          url: api_url,
-          contentType: "application/json",
-          dataType: 'json',
-          success: function(data) {
-            console.log(data);
-            var i;
-            var a = [];
-            var b = [];
-            var c = [];
-            for (i = 0; i < data.results.length; i++) {
-              //Ensuring that values returned by API are not void
-              if (data.results[i].position != null) {
-                a[i] = data.results[i].position[0];
-                b[i] = data.results[i].position[1];
-                c[i] = data.results[i].title;
-              }
-            }
-            var mymap = L.map('policeview').setView([lat, longitude], 13);
-            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-              maxZoom: 19,
-              attribution: 'Map data &copy;' +
-                '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-                'contributors,<a href="https://creativecommons.org/licenses' +
-                '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
-                'www.mapbox.com/">Mapbox</a>',
-              id: 'mapbox.streets',
-              accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
-                'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-            }).addTo(mymap);
-            //Populating markers on the MAP
-            var marker = [];
-            var one;
-            for (one = 0; one < data.results.length; one++) {
-              if (a[one] != null) {
-                //Limits Results to Mauritius Only & near to user
-                var latlower = parseFloat(lat) - 0.09;
-                var latupper = parseFloat(lat) + 0.09;
-                var longlower = parseFloat(longitude) - 0.09;
-                var longupper = parseFloat(longitude) + 0.09;
-                if ((parseFloat(a[one]) >= latlower) && (parseFloat(a[one]) <= latupper)) {
-                  if ((parseFloat(b[one]) >= longlower) && (parseFloat(b[one]) <= longupper)) {
-                    marker[one] = L.marker([a[one], b[one]]).addTo(mymap);
-                    marker[one].bindPopup(c[one]).openPopup();
-                  }
-                }
-              }
-            }
-          }
-        });
-
-      });
-      /*
-      $("#police").click(function() {
-        $("#buttongroup").hide("fast");
-        $("#policeview").show("fast");
-        var api =
-          $.getJSON(api, function(data) {
-            var i;
-            var a = [];
-            var b = [];
-            var c = [];
-            for (i = 0; i < data.results.length; i++) {
-              //Ensuring that values returned by API are not void
-              if (data.results[i].position != null) {
-                a[i] = data.results[i].position[0];
-                b[i] = data.results[i].position[1];
-                c[i] = data.results[i].title;
-              }
-
-            }
-            var mymap = L.map('policeview').setView([lat, longitude], 13);
-            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-              maxZoom: 19,
-              attribution: 'Map data &copy;' +
-                '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-                'contributors,<a href="https://creativecommons.org/licenses' +
-                '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
-                'www.mapbox.com/">Mapbox</a>',
-              id: 'mapbox.streets',
-              accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
-                'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-            }).addTo(mymap);
-            //Populating markers on the MAP
-            var marker = [];
-            var one;
-            for (one = 0; one < data.results.length; one++) {
-              if (a[one] != null) {
-                //Limits Results to Mauritius Only & near to user
-                var latlower = parseFloat(lat) - 0.09;
-                var latupper = parseFloat(lat) + 0.09;
-                var longlower = parseFloat(longitude) - 0.09;
-                var longupper = parseFloat(longitude) + 0.09;
-                if ((parseFloat(a[one]) >= latlower) && (parseFloat(a[one]) <= latupper)) {
-                  if ((parseFloat(b[one]) >= longlower) && (parseFloat(b[one]) <= longupper)) {
-                    marker[one] = L.marker([a[one], b[one]]).addTo(mymap);
-                    marker[one].bindPopup(c[one]).openPopup();
-                  }
-                }
-              }
-            }
-          });
-      });
-      */
-      //FIRE STATTION
-      $("#fire").click(function() {
-        $("#buttongroup").hide("fast");
-        $("#fireview").show("fast");
-        var api = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=mauritiusfire&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
-        $.getJSON(api, function(data) {
-          console.log(data);
-          var i;
-          var a = [];
-          var b = [];
-          var c = [];
-          for (i = 0; i < data.results.length; i++) {
-            //Ensuring that values returned by API are not void
-            if (data.results[i].position != null) {
-              a[i] = data.results[i].position[0];
-              b[i] = data.results[i].position[1];
-              c[i] = data.results[i].title;
-            }
-
-          }
-          var mymap = L.map('fireview').setView([lat, longitude], 13);
-          L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            maxZoom: 19,
-            attribution: 'Map data &copy;' +
-              '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-              'contributors,<a href="https://creativecommons.org/licenses' +
-              '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
-              'www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
-              'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-          }).addTo(mymap);
-          //Populating markers on the MAP
-          var marker = [];
-          var one;
-          for (one = 0; one < data.results.length; one++) {
-            if (a[one] != null) {
-              //Limits Results to Mauritius Only & near to user
-              var latlower = parseFloat(lat) - 0.09;
-              var latupper = parseFloat(lat) + 0.09;
-              var longlower = parseFloat(longitude) - 0.09;
-              var longupper = parseFloat(longitude) + 0.09;
-              if ((parseFloat(a[one]) >= latlower) && (parseFloat(a[one]) <= latupper)) {
-                if ((parseFloat(b[one]) >= longlower) && (parseFloat(b[one]) <= longupper)) {
-                  marker[one] = L.marker([a[one], b[one]]).addTo(mymap);
-                  marker[one].bindPopup(c[one]).openPopup();
-                }
-              }
-            }
-          }
-        });
-      });
-      //HOSPITAL
-      $("#hospital").click(function() {
-        $("#buttongroup").hide("fast");
-        $("#hospitalview").show("fast");
-        var api = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=hospital&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
-        $.getJSON(api, function(data) {
-          console.log(data);
-          var i;
-          var a = [];
-          var b = [];
-          var c = [];
-          for (i = 0; i < data.results.length; i++) {
-            //Ensuring that values returned by API are not void
-            if (data.results[i].position != null) {
-              a[i] = data.results[i].position[0];
-              b[i] = data.results[i].position[1];
-              c[i] = data.results[i].title;
-            }
-
-          }
-          var mymap = L.map('hospitalview').setView([lat, longitude], 13);
-          L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            maxZoom: 19,
-            attribution: 'Map data &copy;' +
-              '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-              'contributors,<a href="https://creativecommons.org/licenses' +
-              '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
-              'www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
-              'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-          }).addTo(mymap);
-          //Populating markers on the MAP
-          var marker = [];
-          var one;
-          for (one = 0; one < data.results.length; one++) {
-            if (a[one] != null) {
-              //Limits Results to Mauritius Only & near to user
-              var latlower = parseFloat(lat) - 0.09;
-              var latupper = parseFloat(lat) + 0.09;
-              var longlower = parseFloat(longitude) - 0.09;
-              var longupper = parseFloat(longitude) + 0.09;
-              if ((parseFloat(a[one]) >= latlower) && (parseFloat(a[one]) <= latupper)) {
-                if ((parseFloat(b[one]) >= longlower) && (parseFloat(b[one]) <= longupper)) {
-                  marker[one] = L.marker([a[one], b[one]]).addTo(mymap);
-                  marker[one].bindPopup(c[one]).openPopup();
-                }
-              }
-            }
-          }
-        });
-      });
-      //BUS STOP
-      $("#busstop").click(function() {
-        $("#buttongroup").hide("fast");
-        $("#busview").show("fast");
-        var api = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=busstation&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
-        $.getJSON(api, function(data) {
-          console.log(data);
-          var i;
-          var a = [];
-          var b = [];
-          var c = [];
-          for (i = 0; i < data.results.length; i++) {
-            //Ensuring that values returned by API are not void
-            if (data.results[i].position != null) {
-              a[i] = data.results[i].position[0];
-              b[i] = data.results[i].position[1];
-              c[i] = data.results[i].title;
-            }
-
-          }
-          var mymap = L.map('busview').setView([lat, longitude], 13);
-          L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            maxZoom: 19,
-            attribution: 'Map data &copy;' +
-              '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-              'contributors,<a href="https://creativecommons.org/licenses' +
-              '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
-              'www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
-              'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-          }).addTo(mymap);
-          //Populating markers on the MAP
-          var marker = [];
-          var one;
-          for (one = 0; one < data.results.length; one++) {
-            if (a[one] != null) {
-              //Limits Results to Mauritius Only & near to user
-              var latlower = parseFloat(lat) - 0.09;
-              var latupper = parseFloat(lat) + 0.09;
-              var longlower = parseFloat(longitude) - 0.09;
-              var longupper = parseFloat(longitude) + 0.09;
-              if ((parseFloat(a[one]) >= latlower) && (parseFloat(a[one]) <= latupper)) {
-                if ((parseFloat(b[one]) >= longlower) && (parseFloat(b[one]) <= longupper)) {
-                  marker[one] = L.marker([a[one], b[one]]).addTo(mymap);
-                  marker[one].bindPopup(c[one]).openPopup();
-                }
-              }
-            }
-          }
-        });
-      });
-      //ATMs
-      $("#atm").click(function() {
-        $("#buttongroup").hide("fast");
-        $("#atmview").show("fast");
-        var api = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=atm&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
-        $.getJSON(api, function(data) {
-          console.log(data);
-          var i;
-          var a = [];
-          var b = [];
-          var c = [];
-          for (i = 0; i < data.results.length; i++) {
-            //Ensuring that values returned by API are not void
-            if (data.results[i].position != null) {
-              a[i] = data.results[i].position[0];
-              b[i] = data.results[i].position[1];
-              c[i] = data.results[i].title;
-            }
-
-          }
-          var mymap = L.map('atmview').setView([lat, longitude], 13);
-          L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            maxZoom: 19,
-            attribution: 'Map data &copy;' +
-              '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-              'contributors,<a href="https://creativecommons.org/licenses' +
-              '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
-              'www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
-              'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-          }).addTo(mymap);
-          //Populating markers on the MAP
-          var marker = [];
-          var one;
-          for (one = 0; one < data.results.length; one++) {
-            if (a[one] != null) {
-              //Limits Results to Mauritius Only & near to user
-              var latlower = parseFloat(lat) - 0.09;
-              var latupper = parseFloat(lat) + 0.09;
-              var longlower = parseFloat(longitude) - 0.09;
-              var longupper = parseFloat(longitude) + 0.09;
-              if ((parseFloat(a[one]) >= latlower) && (parseFloat(a[one]) <= latupper)) {
-                if ((parseFloat(b[one]) >= longlower) && (parseFloat(b[one]) <= longupper)) {
-                  marker[one] = L.marker([a[one], b[one]]).addTo(mymap);
-                  marker[one].bindPopup(c[one]).openPopup();
-                }
-              }
-            }
-          }
-        });
-      });
-      //MUNICIPALITY
-      $("#muni").click(function() {
-        $("#buttongroup").hide("fast");
-        $("#municipalityview").show("fast");
-        var api = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=municipal&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
-        $.getJSON(api, function(data) {
-          console.log(data);
-          var i;
-          var a = [];
-          var b = [];
-          var c = [];
-          for (i = 0; i < data.results.length; i++) {
-            //Ensuring that values returned by API are not void
-            if (data.results[i].position != null) {
-              a[i] = data.results[i].position[0];
-              b[i] = data.results[i].position[1];
-              c[i] = data.results[i].title;
-            }
-
-          }
-          var mymap = L.map('municipalityview').setView([lat, longitude], 13);
-          L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            maxZoom: 19,
-            attribution: 'Map data &copy;' +
-              '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-              'contributors,<a href="https://creativecommons.org/licenses' +
-              '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
-              'www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
-              'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-          }).addTo(mymap);
-          //Populating markers on the MAP
-          var marker = [];
-          var one;
-          for (one = 0; one < data.results.length; one++) {
-            if (a[one] != null) {
-              //Limits Results to Mauritius Only & near to user
-              var latlower = parseFloat(lat) - 0.09;
-              var latupper = parseFloat(lat) + 0.09;
-              var longlower = parseFloat(longitude) - 0.09;
-              var longupper = parseFloat(longitude) + 0.09;
-              if ((parseFloat(a[one]) >= latlower) && (parseFloat(a[one]) <= latupper)) {
-                if ((parseFloat(b[one]) >= longlower) && (parseFloat(b[one]) <= longupper)) {
-                  marker[one] = L.marker([a[one], b[one]]).addTo(mymap);
-                  marker[one].bindPopup(c[one]).openPopup();
-                }
-              }
-            }
-          }
-        });
-      });
-      //BANK
-      $("#bank").click(function() {
-        $("#buttongroup").hide("fast");
-        $("#bankview").show("fast");
-        var api = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=bank&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
-        $.getJSON(api, function(data) {
-          console.log(data);
-          var i;
-          var a = [];
-          var b = [];
-          var c = [];
-          for (i = 0; i < data.results.length; i++) {
-            //Ensuring that values returned by API are not void
-            if (data.results[i].position != null) {
-              a[i] = data.results[i].position[0];
-              b[i] = data.results[i].position[1];
-              c[i] = data.results[i].title;
-            }
-
-          }
-          var mymap = L.map('bankview').setView([lat, longitude], 13);
-          L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            maxZoom: 19,
-            attribution: 'Map data &copy;' +
-              '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-              'contributors,<a href="https://creativecommons.org/licenses' +
-              '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
-              'www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
-              'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-          }).addTo(mymap);
-          //Populating markers on the MAP
-          var marker = [];
-          var one;
-          for (one = 0; one < data.results.length; one++) {
-            if (a[one] != null) {
-              //Limits Results to Mauritius Only & near to user
-              var latlower = parseFloat(lat) - 0.09;
-              var latupper = parseFloat(lat) + 0.09;
-              var longlower = parseFloat(longitude) - 0.09;
-              var longupper = parseFloat(longitude) + 0.09;
-              if ((parseFloat(a[one]) >= latlower) && (parseFloat(a[one]) <= latupper)) {
-                if ((parseFloat(b[one]) >= longlower) && (parseFloat(b[one]) <= longupper)) {
-                  marker[one] = L.marker([a[one], b[one]]).addTo(mymap);
-                  marker[one].bindPopup(c[one]).openPopup();
-                }
-              }
-            }
-          }
-        });
-      });
-      //POST- OFFICE
-      $("#post").click(function() {
-        $("#buttongroup").hide("fast");
-        $("#postview").show("fast");
-        var api = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=postoffice&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
-        $.getJSON(api, function(data) {
-          console.log(data);
-          var i;
-          var a = [];
-          var b = [];
-          var c = [];
-          for (i = 0; i < data.results.length; i++) {
-            //Ensuring that values returned by API are not void
-            if (data.results[i].position != null) {
-              a[i] = data.results[i].position[0];
-              b[i] = data.results[i].position[1];
-              c[i] = data.results[i].title;
-            }
-
-          }
-          var mymap = L.map('postview').setView([lat, longitude], 13);
-          L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            maxZoom: 19,
-            attribution: 'Map data &copy;' +
-              '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-              'contributors,<a href="https://creativecommons.org/licenses' +
-              '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
-              'www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
-              'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-          }).addTo(mymap);
-          //Populating markers on the MAP
-          var marker = [];
-          var one;
-          for (one = 0; one < data.results.length; one++) {
-            if (a[one] != null) {
-              //Limits Results to Mauritius Only & near to user
-              var latlower = parseFloat(lat) - 0.09;
-              var latupper = parseFloat(lat) + 0.09;
-              var longlower = parseFloat(longitude) - 0.09;
-              var longupper = parseFloat(longitude) + 0.09;
-              if ((parseFloat(a[one]) >= latlower) && (parseFloat(a[one]) <= latupper)) {
-                if ((parseFloat(b[one]) >= longlower) && (parseFloat(b[one]) <= longupper)) {
-                  marker[one] = L.marker([a[one], b[one]]).addTo(mymap);
-                  marker[one].bindPopup(c[one]).openPopup();
-                }
-              }
-            }
-          }
-        });
-      });
-      //FILLING STATION
-      $("#gas").click(function() {
-        $("#buttongroup").hide("fast");
-        $("#gasview").show("fast");
-        var api = "https://places.cit.api.here.com/places/v1/autosuggest?at=" + lat + "," + longitude + "&q=fillingstation&app_id=6HK4rI7nJG7U70E3sSlb&app_code=ojkRjUzTEJR5VLyGobiRIQ";
-        $.getJSON(api, function(data) {
-          console.log(data);
-          var i;
-          var a = [];
-          var b = [];
-          var c = [];
-          for (i = 0; i < data.results.length; i++) {
-            //Ensuring that values returned by API are not void
-            if (data.results[i].position != null) {
-              a[i] = data.results[i].position[0];
-              b[i] = data.results[i].position[1];
-              c[i] = data.results[i].title;
-            }
-
-          }
-          var mymap = L.map('gasview').setView([lat, longitude], 13);
-          L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            maxZoom: 19,
-            attribution: 'Map data &copy;' +
-              '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
-              'contributors,<a href="https://creativecommons.org/licenses' +
-              '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
-              'www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
-              'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-          }).addTo(mymap);
-          //Populating markers on the MAP
-          var marker = [];
-          var one;
-          for (one = 0; one < data.results.length; one++) {
-            if (a[one] != null) {
-              //Limits Results to Mauritius Only & near to user
-              var latlower = parseFloat(lat) - 0.09;
-              var latupper = parseFloat(lat) + 0.09;
-              var longlower = parseFloat(longitude) - 0.09;
-              var longupper = parseFloat(longitude) + 0.09;
-              if ((parseFloat(a[one]) >= latlower) && (parseFloat(a[one]) <= latupper)) {
-                if ((parseFloat(b[one]) >= longlower) && (parseFloat(b[one]) <= longupper)) {
-                  marker[one] = L.marker([a[one], b[one]]).addTo(mymap);
-                  marker[one].bindPopup(c[one]).openPopup();
-                }
-              }
-            }
-          }
-        });
-      });
-    }); //END OF HOME FUNCTIONALITY
   </script>
 </body>
 
