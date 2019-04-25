@@ -1,4 +1,3 @@
-﻿
 <!DOCTYPE html>
 <html>
 
@@ -82,6 +81,27 @@
       text-align: center;
     }
 
+    #nowifi {
+      display: none;
+      width: inherit;
+      height: 650px;
+      align-items: center;
+      vertical-align: center;
+    }
+
+    .wifisize {
+      width: 20%;
+      position: relative;
+      margin-top: 280px;
+      margin-left: 150px;
+    }
+
+    .wifi1 {
+      position: relative;
+      margin-top: 3px;
+      margin-left: 90px;
+    }
+
     #policeview,
     #fireview,
     #hospitalview,
@@ -143,7 +163,7 @@
   </style>
 </head>
 
-<body>
+<body onload="onOffline()">
   <!-- MAIN LOGIN PAGE -->
   <div data-role="page" id="login">
     <div class="greet">
@@ -188,6 +208,9 @@
       <h4 id="titl">what`s nearby</h4>
       <h3 id="temp"></h3>
       <br>
+      <div id="nowifi"><img class="wifisize" src="img/nowifi.png">
+        <h3 class="wifi1">No internet connection</h3>
+      </div>
       <div id="buttongroup">
         <div class="ui-grid-b">
           <div class="ui-block-a"><a id="police" href="#policeview" data-transition="flip"><img class="navlogo" src="img/police.png"></a>
@@ -315,6 +338,38 @@
     </div>
   </div>
   <script>
+    //CHECK INTERNET CONNECTION
+    function onOffline() {
+      var networkState = navigator.connection.type;
+      if (networkState == "none") {
+        $("#nowifi").show("fast");
+        $("#buttongroup").hide("fast");
+        $("#titl").hide("fast");
+
+      } else if ($("#policeview" || "#postview" || "#fireview"|| "#hospitalview" || "#busview" || "#atmview" ||"#municipalityview"||"#bankview" ||"#gasview").is(":visible")) {
+        alert("yaaaay");
+      } else {
+        $("#nowifi").hide("fast");
+        $("#buttongroup").show("fast");
+        $("#titl").show("fast");
+      }
+    }
+    window.setInterval(function() {
+      /// call your function here
+      var networkState = navigator.connection.type;
+      if (networkState == "none") {
+        $("#nowifi").show("fast");
+        $("#buttongroup").hide("fast");
+        $("#titl").hide("fast");
+
+      } else if ($("#policeview" || "postview" || "fireview" || "").is(":visible")) {
+
+      } else {
+        $("#nowifi").hide("fast");
+        $("#buttongroup").show("fast");
+        $("#titl").show("fast");
+      }
+    }, 8000);
     //SWIPES
     $("#home").on("swipeleft", homemoveleft);
     $("#camera").on("swiperight", cameramoveright);
