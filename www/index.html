@@ -109,21 +109,21 @@
       display: none;
       width: inherit;
       height: 650px;
-      align-items: center;
-      vertical-align: center;
+      position: absolute;
+      top: 350px;
+      text-align: center;
     }
 
     .wifisize {
       width: 20%;
       position: relative;
-      margin-top: 280px;
-      margin-left: 150px;
     }
 
     .wifi1 {
+      text-align: center;
       position: relative;
       margin-top: 3px;
-      margin-left: 110px;
+
     }
 
     h3 {
@@ -639,19 +639,6 @@
     </div>
   </div>
   <script>
-    /*Dialogs
-    var dialog = document.querySelector('dialog');
-    var showDialogButton = document.querySelector('#Kset');
-    if (!dialog.showModal) {
-      dialogPolyfill.registerDialog(dialog);
-    }
-    showDialogButton.addEventListener('click', function() {
-      dialog.showModal();
-    });
-    dialog.querySelector('.close').addEventListener('click', function() {
-      dialog.close();
-    });
-*/
     //SPLASH SCREEN
     setTimeout(function() {
       navigator.splashscreen.hide();
@@ -800,7 +787,10 @@
     window.setInterval(function() {
       if ($("#buttongroup").is(":visible")) {
         $("#loader").hide("fast");
-      } else if ($("#buttongroup").is(":hidden") && $("#policeview").is(":hidden")) {
+      } else if ($("#nowifi").is(":visible")) {
+        $("#loader").hide("fast");
+      }
+      else if ($("#buttongroup").is(":hidden") && $("#policeview").is(":hidden")) {
         $("#loader").show("fast");
       } else if ($("#buttongroup").is(":hidden") && $("#fireview").is(":hidden")) {
         $("#loader").show("fast");
