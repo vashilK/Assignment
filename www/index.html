@@ -9,19 +9,31 @@
   <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
   <link rel="stylesheet" type="text/css" href="css/util.css">
   <link rel="stylesheet" type="text/css" href="css/main.css">
-  <!-- FILES FOR LEAFLET MAP -->
-  <link rel="stylesheet" href="leaflet/leaflet.css" />
-  <script src="leaflet/leaflet.js"></script>
+  <!-- ICON PACK -->
+  <link rel="stylesheet" href="dist/jqm-icon-pack-fa-builder.css">
+  <link rel="stylesheet" href="dist/jqm-icon-pack-fa.css">
+  <!-- jQuery -->
   <link rel="stylesheet" type="text/css" href="js/jquery.mobile-1.4.5.css">
   <script src="js/jquery.js"></script>
   <script src="js/jquery.mobile-1.4.5.js"></script>
-  <script src="js/home.js"></script>
   <script src="cordova.js"></script>
+  <!-- MATERIAL DESIGN -->
+  <link rel="stylesheet" href="css/material.min.css">
+  <script src="js/material.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- jQuery UI -->
+  <link rel="stylesheet" href="jquery-ui/jquery-ui.css">
+  <script src="jquery-ui/jquery-ui.js"></script>
+  <!-- FILES FOR LEAFLET MAP -->
+  <link rel="stylesheet" href="leaflet/leaflet.css" />
+  <script src="leaflet/leaflet.js"></script>
   <!-- ROUTING LEAFLET -->
   <link rel="stylesheet" href="leaflet-routing-machine/dist/leaflet.css" />
   <link rel="stylesheet" href="leaflet-routing-machine/dist/leaflet-routing-machine.css" />
   <script src="leaflet-routing-machine/dist/leaflet.js"></script>
   <script src="leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+  <!-- CUSTOM JS -->
+  <script src="js/home.js"></script>
   <style>
     .title {
       align-items: center;
@@ -32,7 +44,17 @@
       margin-top: 80px;
       margin-left: 10px;
       margin-right: 10px;
+      background-color: #f12f12f12;
 
+    }
+
+    body {
+      background-color: #f12f12f12;
+    }
+
+    .former {
+      background-color: #f12f12f12;
+      background: #f12f12f12;
     }
 
     .center {
@@ -40,10 +62,17 @@
       margin-right: 20px;
     }
 
+    #login {
+      background-color: #f12f12f12;
+      background: #f12f12f12;
+    }
+
     #mainpglogo {
       width: 35%;
       display: inline-block;
       vertical-align: middle;
+      background: #f12f12f12;
+      background-color: #f12f12f12;
     }
 
     #smalllogo,
@@ -55,11 +84,6 @@
       background-color: #f2f2f2;
       text-align: left;
       height: 50px;
-    }
-
-    .botnav {
-      height: 50px;
-      align-items: center;
     }
 
     .zoli {
@@ -102,6 +126,10 @@
       margin-left: 110px;
     }
 
+    h3 {
+      text-align: center;
+    }
+
     #policeview,
     #fireview,
     #hospitalview,
@@ -111,6 +139,7 @@
     #bankview,
     #postview,
     #gasview {
+      position: relative;
       display: none;
       width: inherit;
       height: 600px;
@@ -118,7 +147,6 @@
 
     #camimg {
       width: inherit;
-      height: 500px;
     }
 
     #subreport {
@@ -145,9 +173,196 @@
 
     #temp {
       font-style: "Times New Roman";
-      margin-top: -26px;
+      top: 20px;
     }
 
+    #buttongroup {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      height: 126%;
+      z-index: 2;
+    }
+
+    #imgblock {
+      width: inherit;
+      height: 320px;
+    }
+
+    #imgspace {
+      width: 50%;
+    }
+
+    #aligntext {
+      align-items: left;
+      text-align: left;
+    }
+
+    /*Navbar ICONS*/
+    .botnav {
+      height: 40px;
+    }
+
+    .yolobot {
+      position: relative;
+      text-align: center;
+    }
+
+    .ui-grid-c {
+      position: relative;
+      padding-top: 10px;
+      left: 20px;
+    }
+
+    /*UI HOMEPAGE*/
+    .demo-card-square.mdl-card {
+      width: 180px;
+      height: 140px;
+    }
+
+    #K1.demo-card-square>.mdl-card__title {
+      color: #fff;
+      background:
+        url('img/police.png') bottom right 15% no-repeat #BA68C8;
+    }
+
+    #K2.demo-card-square>.mdl-card__title {
+      color: #fff;
+      background:
+        url('img/firefighter.png') bottom right 15% no-repeat #4DB6AC;
+    }
+
+    #K3.demo-card-square>.mdl-card__title {
+      color: #fff;
+      background:
+        url('img/hospital.png') bottom right 15% no-repeat #EC407A;
+    }
+
+    #K4.demo-card-square>.mdl-card__title {
+      color: #fff;
+      background:
+        url('img/bus-stop.png') bottom right 15% no-repeat #FFEE58;
+    }
+
+    #K5.demo-card-square>.mdl-card__title {
+      color: #fff;
+      background:
+        url('img/atm.png') bottom right 15% no-repeat #5C6BC0;
+    }
+
+    #K6.demo-card-square>.mdl-card__title {
+      color: #fff;
+      background:
+        url('img/city-hall.png') bottom right 15% no-repeat #9CCC65;
+    }
+
+    #K7.demo-card-square>.mdl-card__title {
+      color: #fff;
+      background:
+        url('img/bank.png') bottom right 15% no-repeat #FF9800;
+    }
+
+    #K8.demo-card-square>.mdl-card__title {
+      color: #fff;
+      background:
+        url('img/gas.png') bottom right 15% no-repeat #673AB7;
+    }
+
+    #Kred.ui-grid-a,
+    #Kred1.ui-grid-a,
+    #Kred2.ui-grid-a {
+      align-items: center;
+      text-align: center;
+      position: relative;
+      padding-top: 22px;
+      padding-left: 20px;
+    }
+
+    .ui-block-a .Ke,
+    .ui-block-b .ke {
+      padding: 5px;
+    }
+
+    #reportid {
+      width: inherit;
+      height: 200px;
+    }
+
+    /*Loader for MAPS*/
+    #loader {
+      display: none;
+      position: absolute;
+      left: 60%;
+      top: 50%;
+      z-index: 1;
+      text-align: center;
+      width: 150px;
+      height: 150px;
+      margin: -75px 0 0 -75px;
+      border: 6px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 6px solid #3498db;
+      width: 40px;
+      height: 40px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Add animation to "page content" */
+    .animate-bottom {
+      position: relative;
+      -webkit-animation-name: animatebottom;
+      -webkit-animation-duration: 1s;
+      animation-name: animatebottom;
+      animation-duration: 1s
+    }
+
+    @-webkit-keyframes animatebottom {
+      from {
+        bottom: -100px;
+        opacity: 0
+      }
+
+      to {
+        bottom: 0px;
+        opacity: 1
+      }
+    }
+
+    @keyframes animatebottom {
+      from {
+        bottom: -100px;
+        opacity: 0
+      }
+
+      to {
+        bottom: 0;
+        opacity: 1
+      }
+    }
+    #homemain{
+      text-align: center;
+    }
     /**Sticks the footer to the bottom of the page */
     [data-role=page] {
       height: 100% !important;
@@ -156,22 +371,24 @@
 
     [data-role=footer] {
       bottom: 0;
-      position: absolute !important;
+      position: fixed !important;
       top: auto !important;
       width: 100%;
+      z-index: 3;
     }
   </style>
 </head>
 
-<body onload="onOffline()">
+<body>
   <!-- MAIN LOGIN PAGE -->
   <div data-role="page" id="login">
+    <br>
     <div class="greet">
-      <form class="login100-form validate-form">
-        <span class="login100-form-title p-b-26 title">
+      <form class="former login100-form validate-form">
+        <span class="former login100-form-title p-b-26 title">
           Welcome
         </span>
-        <span class="login100-form-title p-b-48">
+        <span class=" former login100-form-title p-b-48">
           <img id="mainpglogo" src="img/logo.png">
         </span>
         <div data-role="main" class="ui-content center">
@@ -196,58 +413,134 @@
     </div>
   </div>
   <!-- HOMEPAGE -->
-  <div data-role="page" id="home">
-    <!-- HOMEPAGE header for the page -->
-    <div data-role="header" class="topcolor">
-      <img id="smalllogo1" src="img/logo.png" class="ui-btn-left" />
-      <h3>Mauritius Services</h3>
-    </div>
-    <!-- HOMEPAGE MAIN -->
-    <div data-role="main" id="homemain" class="ui-content">
-      <br>
-      <h4 id="titl">what`s nearby</h4>
+  <div data-role="page" id="home" class="former">
+    <div data-role="main" class="ui-content" id="homemain">
       <h3 id="temp"></h3>
-      <br>
       <div id="nowifi"><img class="wifisize" src="img/nowifi.png">
         <h3 class="wifi1">No internet connection</h3>
       </div>
-      <div id="buttongroup">
-        <div class="ui-grid-b">
-          <div class="ui-block-a"><a id="police" href="#policeview" data-transition="flip"><img class="navlogo" src="img/police.png"></a>
-            <h5 class="alignname">Police Station</h5>
-          </div>
-          <div class="ui-block-b"><a id="fire" href="#fireview" data-transition="flip"><img class="navlogo" src="img/firefighter.png"></a>
-            <h5 class="alignname">Fire Station</h5>
-          </div>
-          <div class="ui-block-c"><a id="hospital" href="#hospitalview" data-transition="flip"><img class="navlogo" src="img/hospital.png"></a>
-            <h5 class="alignname">Hospital</h5>
-          </div>
+      <!-- MAIN BUTTONS FOR MAPS -->
+      <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect" id="buttongroup">
+        <div class="mdl-tabs__tab-bar">
+          <a href="#hometab" class="mdl-tabs__tab is-active">what`s Nearby</a>
         </div>
-        <br>
-        <div class="ui-grid-b">
-          <div class="ui-block-a"><a id="busstop" href="#busview" data-transition="flip"><img class="navlogo" src="img/bus-stop.png"></a>
-            <h5 class="alignname">Bus Stop</h5>
+        <div class="mdl-tabs__panel is-active">
+          <div id="Kred" class="ui-grid-a">
+            <div class="ui-block-a ke">
+              <!-- Square card -->
+              <div id="K1" class="demo-card-square mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title mdl-card--expand">
+                  <h2 class="mdl-card__title-text">Police Station</h2>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                  <a id="police" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    view
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="ui-block-b ke">
+              <!-- Square card -->
+              <div id="K2" class="demo-card-square mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title mdl-card--expand">
+                  <h2 class="mdl-card__title-text">Fire Station</h2>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                  <a id="fire" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" data-transition="pop">
+                    view
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="ui-block-b"><a id="atm" href="#atmview" data-transition="flip"><img class="navlogo" src="img/atm.png"></a>
-            <h5 class="alignname">ATM</h5>
+          <div id="Kred1" class="ui-grid-a">
+            <div class="ui-block-a ke">
+              <!-- Square card -->
+              <div id="K3" class="demo-card-square mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title mdl-card--expand">
+                  <h2 class="mdl-card__title-text">Hospital</h2>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                  <a id="hospital" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    view
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="ui-block-b ke">
+              <!-- Square card -->
+              <div id="K4" class="demo-card-square mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title mdl-card--expand">
+                  <h2 class="mdl-card__title-text">Bus Stop</h2>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                  <a id="busstop" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    view
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="ui-block-c"><a id="muni" href="#municipalityview" data-transition="flip"><img class="navlogo" src="img/city-hall.png"></a>
-            <h5 class="alignname">Municipality</h5>
+          <div id="Kred2" class="ui-grid-a">
+            <div class="ui-block-a ke">
+              <!-- Square card -->
+              <div id="K5" class="demo-card-square mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title mdl-card--expand">
+                  <h2 class="mdl-card__title-text">ATM</h2>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                  <a id="atm" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    view
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="ui-block-b ke">
+              <!-- Square card -->
+              <div id="K6" class="demo-card-square mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title mdl-card--expand">
+                  <h2 class="mdl-card__title-text">Municipality</h2>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                  <a id="muni" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    view
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <br>
-        <div class="ui-grid-b">
-          <div class="ui-block-a"><a id="bank" href="#bankview" data-transition="flip"><img class="navlogo" src="img/bank.png"></a>
-            <h5 class="alignname">Bank</h5>
-          </div>
-          <div class="ui-block-b"><a id="post" href="#postview"><img class="navlogo" src="img/postman.png"></a>
-            <h5 class="alignname">Post Office</h5>
-          </div>
-          <div class="ui-block-c"><a id="gas" href="#gasview"><img class="navlogo" src="img/gas.png"></a>
-            <h5 class="alignname">Filling Station</h5>
+          <div id="Kred2" class="ui-grid-a">
+            <div class="ui-block-a ke">
+              <!-- Square card -->
+              <div id="K7" class="demo-card-square mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title mdl-card--expand">
+                  <h2 class="mdl-card__title-text">Bank</h2>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                  <a id="bank" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    view
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="ui-block-b ke">
+              <!-- Square card -->
+              <div id="K8" class="demo-card-square mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title mdl-card--expand">
+                  <h2 class="mdl-card__title-text">Filling Station</h2>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                  <a id="gas" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    view
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <!-- LEAFLET MAPS -->
+      <div id="loader"></div>
       <div id="policeview"></div>
       <div id="fireview"></div>
       <div id="hospitalview"></div>
@@ -258,11 +551,11 @@
       <div id="postview"></div>
       <div id="gasview"></div>
     </div>
-    <!-- HOMEPAGE footer -->
+    <!-- FOOTER NAV -->
     <div data-role="footer">
       <div data-role="navbar">
         <ul>
-          <li><a id="home1" href="#home" data-icon="home" ico class="ui-btn-active botnav"></a></li>
+          <li><a id="home1" href="#home" data-icon="map-marker" class="botnav"></a></li>
           <li><a id="camera1" data-icon="camera" class="botnav"></a></li>
           <li><a href="#profile" data-icon="user" class="botnav"></a></li>
         </ul>
@@ -271,29 +564,37 @@
   </div>
   <!-- CAMERA -->
   <div data-role="page" id="camera">
-    <!-- HOMEPAGE header for the page -->
-    <div data-role="header" class="topcolor">
-      <img id="smalllogo1" src="img/logo.png" class="ui-btn-left" />
-      <h3>Mauritius Services</h3>
-    </div>
     <!-- CAMERA MAIN -->
     <div data-role="main" id="cameramain" class="ui-content">
       <div id="report">
-        <textarea id="combox" rows="15" cols="100"></textarea>
-        <div class="ui-grid-a">
-          <div class="ui-block-a">
-            <button id="subreport" class="ui-btn ui-corner-all">Submit</button></div>
-          <div class="ui-block-b"><button id="cancelreport" class="ui-btn ui-corner-all">cancel</button></div>
-        </div>
+        <h3>Complaint Form<h3>
+            <div id="imgblock">
+              <img id="imgspace" src="">
+            </div>
+            <div id="aligntext">
+              <label for="curuser">User:</label>
+              <input id="curuser" disabled data-mini="true">
+              <label for="curlocation">Location: </label>
+              <input id="curlocation" data-mini="true" disabled>
+              <div id="reportid"></div>
+              <br>
+              <label for="combox">Details:</label>
+              <textarea id="combox" rows="5"></textarea>
+            </div>
+            <div class="ui-grid-a">
+              <div class="ui-block-a">
+                <button id="subreport" class="ui-btn ui-corner-all">Submit</button></div>
+              <div class="ui-block-b"><button id="cancelreport" class="ui-btn ui-corner-all">cancel</button></div>
+            </div>
       </div>
       <div id="camimg"></div>
 
     </div>
     <!-- CAMERA footer -->
     <div data-role="footer">
-      <div data-role="navbar">
+      <div data-role="navbar" class="yolobot">
         <ul>
-          <li><a id="home1" href="#home" data-icon="home" ico class=" botnav"></a></li>
+          <li><a id="home1" href="#home" data-icon="home" class=" botnav"></a></li>
           <li><a href="#camera" data-icon="camera" class="botnav"></a></li>
           <li><a href="#profile" data-icon="user" class="botnav"></a></li>
         </ul>
@@ -338,6 +639,31 @@
     </div>
   </div>
   <script>
+    /*Dialogs
+    var dialog = document.querySelector('dialog');
+    var showDialogButton = document.querySelector('#Kset');
+    if (!dialog.showModal) {
+      dialogPolyfill.registerDialog(dialog);
+    }
+    showDialogButton.addEventListener('click', function() {
+      dialog.showModal();
+    });
+    dialog.querySelector('.close').addEventListener('click', function() {
+      dialog.close();
+    });
+*/
+    //SPLASH SCREEN
+    setTimeout(function() {
+      navigator.splashscreen.hide();
+    }, 2000);
+    //LOCK Orientation
+    window.screen.orientation.lock('portrait');
+    //Changing status bar topcolor
+    $(document).ready(function() {
+      if (cordova.platformId == 'android') {
+        StatusBar.hide();
+      }
+    });
     //CHECK INTERNET CONNECTION
     function onOffline() {
       var networkState = navigator.connection.type;
@@ -363,17 +689,17 @@
         $("#titl").hide("fast");
       } else if ($("#policeview").is(":visible") || $("#fireview").is(":visible") || $("#hospitalview").is(":visible") || $("#busview").is(":visible") || $("#atmview").is(":visible") || $("#municipalityview").is(":visible") || $("#bankview").is(
           ":visible") || $("#gasview").is(":visible")) {
-        alert("working");
+        //do nothing
       } else {
         $("#nowifi").hide("fast");
         $("#buttongroup").show("fast");
         $("#titl").show("fast");
       }
 
-    }, 8000);
+    }, 800);
     //SWIPES
     $("#home").on("swipeleft", homemoveleft);
-    $("#camera").on("swiperight", cameramoveright);
+    //$("#camera").on("swiperight", cameramoveright);
 
     function homemoveleft() {
       if ($("#buttongroup").is(":visible")) {
@@ -382,6 +708,8 @@
           transition: "slide"
         });
         clickpic();
+        reportmap();
+        filltext();
       }
     }
 
@@ -401,6 +729,8 @@
           transition: "pop"
         });
         clickpic();
+        filltext();
+        reportmap();
       })
     });
 
@@ -416,6 +746,7 @@
       img.src = imageURI;
       imageloc = imageURI;
       //imageloc location provides the absolute path to the image in memory
+      $("#imgspace").attr('src', imageloc);
       $("#report").show("fast");
     }
 
@@ -425,6 +756,71 @@
         transition: "pop"
       });
     }
+
+    function filltext() {
+      $.ajax({
+        url: 'https://weather.cit.api.here.com/weather/1.0/report.json',
+        type: 'GET',
+        dataType: 'jsonp',
+        jsonp: 'jsonpcallback',
+        data: {
+          product: 'observation',
+          latitude: localStorage.getItem('lat'),
+          longitude: localStorage.getItem('longitude'),
+          oneobservation: 'true',
+          app_id: '6HK4rI7nJG7U70E3sSlb',
+          app_code: 'ojkRjUzTEJR5VLyGobiRIQ'
+        },
+        success: function(data) {
+          $("#curlocation").val(data.observations.location[0].city);
+        }
+      });
+    }
+
+    function reportmap() {
+      var lat = localStorage.getItem('lat');
+      var longitude = localStorage.getItem('longitude');
+      var mymap = L.map('reportid').setView([lat, longitude], 17);
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+        maxZoom: 19,
+        attribution: 'Map data &copy;' +
+          '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>' +
+          'contributors,<a href="https://creativecommons.org/licenses' +
+          '/by-sa/2.0/">CC-BY-SA</a>,Imagery © <a href="https://' +
+          'www.mapbox.com/">Mapbox</a>',
+        id: 'mapbox.satellite',
+        accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYyc' +
+          'XBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
+      }).addTo(mymap);
+
+      var marker = L.marker([lat, longitude]).addTo(mymap);
+      marker.bindPopup("<b>Report Location<b>").openPopup();
+    }
+    //Shows loader
+    window.setInterval(function() {
+      if ($("#buttongroup").is(":visible")) {
+        $("#loader").hide("fast");
+      } else if ($("#buttongroup").is(":hidden") && $("#policeview").is(":hidden")) {
+        $("#loader").show("fast");
+      } else if ($("#buttongroup").is(":hidden") && $("#fireview").is(":hidden")) {
+        $("#loader").show("fast");
+      } else if ($("#buttongroup").is(":hidden") && $("#hospitalview").is(":hidden")) {
+        $("#loader").show("fast");
+      } else if ($("#buttongroup").is(":hidden") && $("#busview").is(":hidden")) {
+        $("#loader").show("fast");
+      } else if ($("#buttongroup").is(":hidden") && $("#atmview").is(":hidden")) {
+        $("#loader").show("fast");
+      } else if ($("#buttongroup").is(":hidden") && $("#municipalityview").is(":hidden")) {
+        $("#loader").show("fast");
+      } else if ($("#buttongroup").is(":hidden") && $("#bankview").is(":hidden")) {
+        $("#loader").show("fast");
+      } else if ($("#buttongroup").is(":hidden") && $("#gasview").is(":hidden")) {
+        $("#loader").show("fast");
+      } else {
+        $("#loader").hide("fast");
+      }
+    }, 800);
+
   </script>
 </body>
 
