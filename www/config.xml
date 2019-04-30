@@ -15,11 +15,11 @@
   <plugin name="cordova-plugin-geolocation" spec="~1.0.0" />
   <plugin name="cordova-plugin-whitelist" version="1" />
   <plugin name="cordova-plugin-camera" spec="2.4.1" />
-  <plugin name="cordova-plugin-file" spec="~1.0.0" />
-  <plugin name="cordova-plugin-filepath" spec="~1.0.0" />
-  <plugin name="cordova-plugin-network-information" version="1.0.1" />
-  <plugin name="cordova-plugin-screen-orientation" version="1.4.1" />
-  <plugin name="cordova-plugin-statusbar" spec="~1.0.0" />
+  <plugin name="cordova-plugin-file" version="6.0.1" />
+  <plugin name="cordova-plugin-filepath" version="1.5.1" />
+  <plugin name="cordova-plugin-network-information" version="2.0.1" />
+  <plugin name="cordova-plugin-screen-orientation" version="3.0.1" />
+  <plugin name="cordova-plugin-statusbar" version="2.4.2" />
 
 
   <author href="#" email="kissoonvashil@gmail.com">
