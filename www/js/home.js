@@ -1,31 +1,35 @@
 var lat;
 var longitude;
 
-//This is for main page current location
-if (navigator.geolocation == undefined) {
-  alert("Gelocation undefined");
-} else {
-  //alert("Geolocation Available");
-  navigator.geolocation.getCurrentPosition(userLocated, LocationError);
 
-  function userLocated(position) {
-    lat = position.coords.latitude;
-    longitude = position.coords.longitude;
-    alert("Lat: " + lat + ", Lon: " + longitude);
-  }
+window.setInterval(function() {
+  //This is for main page current location
+  if (navigator.geolocation == undefined) {
+    alert("Gelocation undefined");
+  } else {
+    navigator.geolocation.getCurrentPosition(userLocated, LocationError);
 
-  function LocationError(error) {
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        alert("Permission Denied-" + error.message);
-        break;
+    function userLocated(position) {
+      lat = position.coords.latitude;
+      longitude = position.coords.longitude;
+      //Assigning temporary storage
+      localStorage.setItem('lat', lat);
+      localStorage.setItem('longitude', longitude);
+    }
 
-      case error.POSITION_UNAVAILABLE:
-        alert("Request Time out-" + error.message);
+    function LocationError(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          alert("Permission Denied-" + error.message);
+          break;
 
+        case error.POSITION_UNAVAILABLE:
+          alert("Request Time out-" + error.message);
+
+      }
     }
   }
-}
+}, 2000);
 
 //CODE FOR HOME FUNCTIONALITY
 $(document).ready(function() {
@@ -655,9 +659,9 @@ $(document).ready(function() {
         app_code: 'ojkRjUzTEJR5VLyGobiRIQ'
       },
       success: function(data) {
-        console.log(data);
         $("#temp").html(data.observations.location[0].city + ": " + data.observations.location[0].observation[0].highTemperature + "<img id='thermo' src='img/thermo.png'>");
       }
     });
   }
+
 }); //END OF HOME FUNCTIONALITY
