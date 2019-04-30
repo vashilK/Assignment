@@ -18,7 +18,7 @@
   <plugin name="cordova-plugin-file" spec="~1.0.0" />
   <plugin name="cordova-plugin-filepath" spec="~1.0.0" />
   <plugin name="cordova-plugin-network-information" version="1.0.1" />
-  <plugin name="cordova-plugin-screen-orientation" spec="~1.0.0" />
+  <plugin name="cordova-plugin-screen-orientation" version="1.4.1" />
   <plugin name="cordova-plugin-statusbar" spec="~1.0.0" />
 
 
