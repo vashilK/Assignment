@@ -10,10 +10,7 @@
   </description>
   <platform name="android">
     <icon src="img/android/map.png" platform="android" width="64" height="64" density="ldpi" />
-    <splash src="img/android/map.png" density="land-hdpi"/>
     <splash src="img/android/map.png" density="land-ldpi"/>
-    <splash src="img/android/map.png" density="land-mdpi"/>
-    <splash src="img/android/map.png" density="land-xhdpi"/
   </platform>
   <plugin name="cordova-plugin-geolocation" spec="~1.0.0" />
   <plugin name="cordova-plugin-whitelist" version="1" />
