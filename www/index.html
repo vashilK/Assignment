@@ -367,6 +367,13 @@
       text-align: center;
     }
 
+    /* PROFILE */
+    #img1cont{
+      text-align: center;
+    }
+    #img1{
+      width: 50%;
+    }
     /**Sticks the footer to the bottom of the page */
     [data-role=page] {
       height: 100% !important;
@@ -652,7 +659,7 @@
   </div>
 
   <div data-role="page" id="profile">
-    <div data-role="main" class="ui-content">
+    <div id="img1cont" data-role="main" class="ui-content">
       <img id="img1" src="">
     </div>
   </div>
@@ -670,6 +677,7 @@
       });
       //REGISTER LOGIC
       $("#regsub").tap(function(e) {
+        e.preventDefault();
         pushtotable();
       });
 
@@ -685,6 +693,10 @@
           var f = $("#email").val();
           var g = $("#cpass").val();
           tx.executeSql('INSERT INTO user(name,surname,nic,district,password,address,email) VALUES (?,?,?,?,?,?,?)', [a, b, c, e, g, d, f]);
+        });
+        $.mobile.changePage("#login", {
+          reverse: false,
+          transition: "pop"
         });
       }
       //LOGIN LOGIC
