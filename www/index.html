@@ -667,6 +667,10 @@
     document.addEventListener("deviceready", onDeviceReady, false);
 
     function onDeviceReady() {
+     //SPLASH SCREEN
+    setTimeout(function() {
+      navigator.splashscreen.hide();
+    }, 2000);
       //creates the database and size
       db = openDatabase("ComplaintApp", "1.0", "Database for Ai", 2 * 1024 * 1024);
       //ALLOWS execution of all functions
